@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :comments
   resources :order_products
   resources :products
   resources :categories
