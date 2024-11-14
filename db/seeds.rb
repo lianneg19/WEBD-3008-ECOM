@@ -98,7 +98,28 @@ unique_starbucks.each do |category_5|
   end
 end
 
+# CUSTOMERS
+100.times do
+  roles = [ 2, 3 ]
+  rand_roles = roles.sample
 
+  customer = Customer.create(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    address: Faker::Address.full_address,
+    phone_number: Faker::PhoneNumber.phone_number,
+    user_role: rand_roles
+  )
+
+  if customer.registered_user?
+    customer.update(
+      email: Faker::Internet.email(name: "#{customer.first_name}"),
+      username: Faker::Internet.username(specifier: 5..20),
+      password: Faker::Internet.password(min_length: 3)
+    )
+  end
+end
 
 puts "There are #{Category.count} Categories created."
 puts "There are #{Product.count} Products created."
+puts "There are #{Customer.count} Customers created."
