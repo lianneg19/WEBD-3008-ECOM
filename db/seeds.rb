@@ -90,7 +90,7 @@ unique_starbucks.each do |category_5|
   starbucks_products = starbucks.select { |product| product["type"] == category_5 }
   starbucks_products.each do |product_5|
     Product.create(
-      name: product_5["type"],
+      name: product_5["item"],
       description: "Calories: #{product_5["calories"]}",
       price: Faker::Number.between(from: 1, to: 25),
       category_id: new_category_5.id
