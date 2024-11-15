@@ -5,12 +5,13 @@
 <h1>Categories</h1>
 
 <div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
+  <ol>
+    <% @categories.each do |category| %>
+      <li>
+        <%= link_to category.name, category %>
+      </li>
+    <% end %>
+  </ol>
 </div>
 
 <%= link_to "New category", new_category_path %>

@@ -5,12 +5,13 @@
 <h1>Customers</h1>
 
 <div id="customers">
-  <% @customers.each do |customer| %>
-    <%= render customer %>
-    <p>
-      <%= link_to "Show this customer", customer %>
-    </p>
-  <% end %>
+  <ol>
+    <% @customers.each do |customer| %>
+    <li>
+      <%= link_to "#{customer.first_name} #{customer.last_name}", customer %>
+    </li>
+    <% end %>
+  </ol>
 </div>
 
 <%= link_to "New customer", new_customer_path %>
