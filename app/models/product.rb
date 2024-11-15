@@ -4,7 +4,7 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_products
 
   validates :name, :price, presence: true
-  validates :price, numericality: { greater_than: 0 }
+  validates :price, numericality: { greater_than_or_equal_to: 2 }
 
   def self.ransackable_associations(auth_object = nil)
     [ "category", "order_products", "orders" ]
