@@ -123,3 +123,7 @@ end
 puts "There are #{Category.count} Categories created."
 puts "There are #{Product.count} Products created."
 puts "There are #{Customer.count} Customers created."
+
+if Rails.env.development?
+  AdminUser.create!(email: 'admin@example.com', password: 'pass123', password_confirmation: 'pass123')
+end
