@@ -5,4 +5,8 @@ class Order < ApplicationRecord
 
   validates :status, presence: true
   enum status: { active: 1, shipped: 2, canceled: 3 }
+
+  def self.ransackable_attributes(auth_object = nil)
+    [ "created_at", "customer_id", "id", "status", "updated_at" ]
+  end
 end
