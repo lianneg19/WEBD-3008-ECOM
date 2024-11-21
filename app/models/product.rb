@@ -15,8 +15,9 @@ class Product < ApplicationRecord
   end
 
   def self.search(search, category_id = nil)
-    if search.present?
+    if search.present? && category_id.present?
       Product.where("name LIKE ? OR description LIKE ?", "%#{search}%", "%#{search}%")
+             .where(category_id: category_id)
     else
       Product.all
     end
