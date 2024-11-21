@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get "homepage/index"
+  root "homepage#index"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :comments
