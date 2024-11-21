@@ -14,12 +14,18 @@ class Product < ApplicationRecord
     [ "category_id", "created_at", "description", "id", "id_value", "name", "price", "updated_at" ]
   end
 
-  def self.search(search, category_id = nil)
+  def self.search(search, category_id)
+    all_products = Product.all
+
     if search.present? && category_id.present?
-      Product.where("name LIKE ? OR description LIKE ?", "%#{search}%", "%#{search}%")
-             .where(category_id: category_id)
+    all_products.where("name LIKE ? OR description LIKE ?", "%#{search}%", "%#{search}%")
+                .where(category_id: category_id)
+    elsif search.present?
+      all_products.where("name LIKE ? OR description LIKE ?", "%#{search}%", "%#{search}%")
+    elsif category_id.present?
+      all_products.where(category_id: category_id)
     else
-      Product.all
+      all_products
     end
   end
 end
