@@ -13,4 +13,12 @@ class Product < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     [ "category_id", "created_at", "description", "id", "id_value", "name", "price", "updated_at" ]
   end
+
+  def self.search(search)
+    if search.present?
+      Product.where("name LIKE ? OR description LIKE ?", "%#{search}%")
+    else
+      @products = Product.all
+    end
+  end
 end
