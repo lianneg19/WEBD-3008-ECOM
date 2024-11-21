@@ -2,6 +2,15 @@
 
 <% content_for :title, "Products" %>
 
+  <div>
+    <div>
+      <%= form_tag products_path, :method => "get" do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Product Name" %>
+      <%= submit_tag("Search") %>
+      <% end %>
+    </div>
+  </div>
+
 <h1>Products</h1>
 
 <div id="products">
