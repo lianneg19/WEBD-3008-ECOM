@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 class Customers::RegistrationsController < Devise::RegistrationsController
+  before_action :update_sanitized_params, if: :devise_controller?
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :first_name, :last_name, :address,
+                                   :phone_number, :username, :email, :password, :password_confirmation ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :first_name, :last_name, :address,
+                                   :phone_number, :username, :email, :password, :password_confirmation, :current_password ])
+  end
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
