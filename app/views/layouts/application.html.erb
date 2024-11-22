@@ -17,6 +17,14 @@
   </head>
 
   <body>
+    <header>
+      <% if current_customer %>
+        <h2>You're logged in!</h2>
+      <% else %>
+        <h2>Not logged in.</h2>
+      <% end %>
+    </header>
     <%= yield %>
+    <%= button_to "Log out", destroy_customer_session_path, method: :delete%>
   </body>
 </html>
