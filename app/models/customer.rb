@@ -7,13 +7,16 @@ class Customer < ApplicationRecord
   has_many :comments
 
   validates :first_name, :last_name, :address, :phone_number, :user_role, presence: true
-  enum user_role: { admin: 1, registered_user: 2, visitor: 3 }
+  enum user_role: { admin: 1, registered_user: 2, visitor: 3 }, _default: 2
 
   def self.ransackable_associations(auth_object = nil)
     [ "comments", "orders" ]
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "address", "created_at", "email", "first_name", "id", "id_value", "last_name", "password", "phone_number", "updated_at", "user_role", "username" ]
+    [ "address", "created_at", "email", "first_name", "id", "id_value",
+      "last_name", "password", "phone_number", "updated_at", "user_role",
+      "username", "reset_password_token_cont", "reset_password_token_eq",
+      "reset_password_token_start", "reset_password_token_end" ]
   end
 end
