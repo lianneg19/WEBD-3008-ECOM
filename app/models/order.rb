@@ -14,4 +14,16 @@ class Order < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     [ "customer", "order_products", "products" ]
   end
+
+  # sources used by: https://www.youtube.com/@HappyCoding
+  def subtotal
+    order_products.sum do  |order_product|
+      order_products.products.price * order_product.quantity
+    end
+  end
+
+  private
+  def set_subtotal
+    self[:subtotal] = subtotal
+  end
 end
