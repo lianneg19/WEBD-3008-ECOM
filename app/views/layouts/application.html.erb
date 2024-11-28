@@ -15,8 +15,6 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
-
-  <body>
     <header>
       <% if current_customer %>
         <h2>You're logged in!</h2>
@@ -24,6 +22,8 @@
         <h2>Not logged in.</h2>
       <% end %>
     </header>
+  <body>
+    <%= render partial: "orders/cart" if @render_order_cart%>
     <%= yield %>
     <%= button_to "Log out", destroy_customer_session_path, method: :delete%>
   </body>
