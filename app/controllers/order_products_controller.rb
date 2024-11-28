@@ -1,9 +1,12 @@
 class OrderProductsController < ApplicationController
-  before_action :set_order_product, only: %i[ show edit update destroy ]
+  # before_action :set_order_product, only: %i[ show edit update destroy ]
 
   # GET /order_products or /order_products.json
   def index
     @order_products = OrderProduct.all
+    @order = initialize_order_cart
+    @products = Product.all
+    @categories = Category.all
   end
 
   # GET /order_products/1 or /order_products/1.json
@@ -15,37 +18,34 @@ class OrderProductsController < ApplicationController
     @order_product = OrderProduct.new
   end
 
-  # GET /order_products/1/edit
-  def edit
-  end
+  # # GET /order_products/1/edit
+  # def edit
+  # end
 
   # POST /order_products or /order_products.json
   def create
+    Rails.logger.debug("#{params.inspect}")
     @order_product = OrderProduct.new(order_product_params)
 
-    respond_to do |format|
-      if @order_product.save
-        format.html { redirect_to @order_product, notice: "Order product was successfully created." }
-        format.json { render :show, status: :created, location: @order_product }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order_product.errors, status: :unprocessable_entity }
-      end
+    if @order_product.save
+      redirect_to products_path, notice: "Product added to cart!"
+    else
+      redirect_to products_path, notice: "Failed to add product to cart."
     end
   end
 
-  # PATCH/PUT /order_products/1 or /order_products/1.json
-  def update
-    respond_to do |format|
-      if @order_product.update(order_product_params)
-        format.html { redirect_to @order_product, notice: "Order product was successfully updated." }
-        format.json { render :show, status: :ok, location: @order_product }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @order_product.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # # PATCH/PUT /order_products/1 or /order_products/1.json
+  # def update
+  #   respond_to do |format|
+  #     if @order_product.update(order_product_params)
+  #       format.html { redirect_to @order_product, notice: "Order product was successfully updated." }
+  #       format.json { render :show, status: :ok, location: @order_product }
+  #     else
+  #       format.html { render :edit, status: :unprocessable_entity }
+  #       format.json { render json: @order_product.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /order_products/1 or /order_products/1.json
   def destroy
@@ -65,6 +65,6 @@ class OrderProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_product_params
-      params.require(:order_product).permit(:order_id, :product_id)
+      params.permit(:order_id, :product_id)
     end
 end
