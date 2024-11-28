@@ -1,14 +1,14 @@
 <h1>My Cart</h1>
 
 <div>
-  <% if @order.order_products.present? %>
+  <% if @order && @order.order_products.present? %>
   <ul>
     <% @order.order_products.each do |order_product| %>
     <li>
       <%= order_product.product.name %> -
-       <%= button_to "Remove", order_path(order_product.product), method: :delete do%>
-       Removed from cart!
-       <% end %>
+      <%= button_to order_product_path(order_product), method: :delete do%>
+      Remove from cart
+      <%end%>
     </li>
     <% end %>
   </ul>
