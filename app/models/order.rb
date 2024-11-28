@@ -7,7 +7,8 @@ class Order < ApplicationRecord
   enum status: { active: 1, shipped: 2, canceled: 3 }, _default: 1
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "created_at", "customer_id", "id", "status", "updated_at" ]
+    [ "created_at", "customer_id", "id", "status", "updated_at",
+      "subtotal", "total", "tax" ]
   end
 
   def self.ransackable_associations(auth_object = nil)

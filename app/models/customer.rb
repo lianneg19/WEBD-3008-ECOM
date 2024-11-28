@@ -11,7 +11,7 @@ class Customer < ApplicationRecord
   enum user_role: { admin: 1, registered_user: 2, visitor: 3 }, _default: 2
 
   def self.ransackable_associations(auth_object = nil)
-    [ "comments", "orders" ]
+    [ "comments", "orders", "cart" ]
   end
 
   def self.ransackable_attributes(auth_object = nil)
