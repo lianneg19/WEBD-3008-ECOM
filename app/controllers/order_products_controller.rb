@@ -24,28 +24,11 @@ class OrderProductsController < ApplicationController
 
   # POST /order_products or /order_products.json
   def create
-    Rails.logger.debug("#{params.inspect}")
-    @order_product = OrderProduct.new(order_product_params)
-
-    if @order_product.save
-      redirect_to products_path, notice: "Product added to cart!"
-    else
-      redirect_to products_path, notice: "Failed to add product to cart."
-    end
+    @order = current_order
+    @order_product = @order.order_products.new(order_product_params)
+    @order.save
+    session[:order_id] = @order.id
   end
-
-  # # PATCH/PUT /order_products/1 or /order_products/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @order_product.update(order_product_params)
-  #       format.html { redirect_to @order_product, notice: "Order product was successfully updated." }
-  #       format.json { render :show, status: :ok, location: @order_product }
-  #     else
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.json { render json: @order_product.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   # DELETE /order_products/1 or /order_products/1.json
   def destroy
@@ -65,6 +48,6 @@ class OrderProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_product_params
-      params.permit(:order_id, :product_id)
+      params.require(:order_product).permit(:order_id, :product_id)
     end
 end
