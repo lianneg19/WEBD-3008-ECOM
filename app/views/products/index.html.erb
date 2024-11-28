@@ -19,7 +19,12 @@
   <ol>
     <% @products.each do |product| %>
       <li>
-        <%= link_to product.name, product %>
+        <%= link_to product.name, product %> -
+        <%= form_with(url: order_products_path) do |f| %>
+          <%= f.hidden_field :order_id, value: @order.id %>
+          <%= f.hidden_field :product_id, value: product.id%>
+          <%= f.submit "Add to cart" %>
+        <% end %>
       </li>
     <% end %>
   </ol>
