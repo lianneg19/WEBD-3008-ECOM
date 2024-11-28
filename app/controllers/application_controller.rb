@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
-  before_action :initialize_order
+  before_action :set_render_order_cart
+  before_action :initialize_order_cart
   helper_method :current_customer
 
   def after_sign_out_path_for(resource_or_scope)
@@ -9,7 +10,11 @@ class ApplicationController < ActionController::Base
   end
 
   # sources used: https://www.youtube.com/watch?v=SPokmOwiM7E
-  def initialize_order
+  def set_render_order_cart
+    @render_order_cart = true
+  end
+
+  def initialize_order_cart
     if current_customer
       @order ||= Order.find_by(id: session[:order_id],
         customer_id: current_customer.id)
