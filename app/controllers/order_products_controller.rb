@@ -1,7 +1,7 @@
 class OrderProductsController < ApplicationController
   # before_action :set_order_product, only: %i[ show edit update destroy ]
   skip_before_action :verify_authenticity_token
-  include ApplicationHelper
+  # include ApplicationHelper
   # GET /order_products or /order_products.json
   def index
     @order_products = OrderProduct.all
