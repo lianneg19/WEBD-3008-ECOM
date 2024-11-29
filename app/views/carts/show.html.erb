@@ -1,0 +1,24 @@
+<h1>My Cart</h1>
+
+<div>
+  <% if @order_products.any? %>
+    <% @order_products.each do |order_product| %>
+      <li>
+        <%= link_to order_product.product.name, product_path(order_product.product) %> -
+          <%= form_for(order_product, remote: true) do |f| %>
+            <%= f.hidden_field :order_id, value: @order.id %>
+            <%= f.hidden_field :product_id, value: order_product.product.id %>
+            <%= "Price: #{order_product.product.price}"%>
+            <%= f.text_field :quantity, value: order_product.quantity.to_i, min: 1 %>
+            <div>
+              <%= f.submit "Update Quantity", class: 'btn btn-primary btn-sm'%>
+              <%= link_to "Delete", order_product, method: :delete, remote: true%>
+            </div>
+            <span> Total Price: <%= order_product.total_price %></span>
+          <% end %>
+      </li>
+    <% end %>
+    <% else %>
+    <p>Your cart is empty!</p>
+  <% end %>
+</div>
