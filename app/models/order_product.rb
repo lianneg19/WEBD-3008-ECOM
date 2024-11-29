@@ -6,7 +6,8 @@ class OrderProduct < ApplicationRecord
   before_save :set_total_price
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "created_at", "id", "order_id", "product_id", "updated_at", "quantity" ]
+    [ "created_at", "id", "order_id", "product_id", "updated_at", "quantity",
+      "unit_price", "total_price" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -16,7 +17,7 @@ class OrderProduct < ApplicationRecord
   # sources used by: https://www.youtube.com/@HappyCoding
   def unit_price
     if persisted?
-      seld[:unit_price]
+      self[:unit_price]
     else
       product.price
     end
@@ -32,6 +33,6 @@ class OrderProduct < ApplicationRecord
     end
 
     def set_total_price
-      self[:tota_price] = quantity & set_unit_price
+      self[:total_price] = quantity * set_unit_price
     end
 end
