@@ -1,16 +1,17 @@
 class OrderProductsController < ApplicationController
   # before_action :set_order_product, only: %i[ show edit update destroy ]
-
+  skip_before_action :verify_authenticity_token
+  include ApplicationHelper
   # GET /order_products or /order_products.json
   def index
     @order_products = OrderProduct.all
-    @order = initialize_order_cart
     @products = Product.all
     @categories = Category.all
   end
 
   # GET /order_products/1 or /order_products/1.json
   def show
+    @order_product = OrderProduct.find(params[:id])
   end
 
   # GET /order_products/new
@@ -24,20 +25,37 @@ class OrderProductsController < ApplicationController
 
   # POST /order_products or /order_products.json
   def create
+    Rails.logger.debug("#{params.inspect}")
     @order = current_order
     @order_product = @order.order_products.new(order_product_params)
-    @order.save
+    if @order.save
+      flash[:notice] = "Added to cart!"
+    else
+      flash[:notice] = "Failed to add!"
+    end
     session[:order_id] = @order.id
+    redirect_to request.referer || products_path
+  end
+
+  def update
+    @order = current_order
+    @order_product = @order.order_products.find(params[:id])
+    @order_product.update(order_product_params)
+    @order_products = @order.order_products
+    redirect_to carts_path
   end
 
   # DELETE /order_products/1 or /order_products/1.json
   def destroy
-    @order_product.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to order_products_path, status: :see_other, notice: "Order product was successfully destroyed." }
-      format.json { head :no_content }
+    @order = current_order
+    @order_product = @order.order_products.find(params[:id])
+    if @order_product
+      @order_product.destroy
+      flash[:notice] = "Product Deleted!"
+    else
+      flash[:notice] = "Failed to Delete!"
     end
+    redirect_to carts_path
   end
 
   private
@@ -48,6 +66,7 @@ class OrderProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_product_params
-      params.require(:order_product).permit(:order_id, :product_id)
+      params.require(:order_product).permit(:order_id, :product_id, :quantity,
+        :unit_price, :total_price)
     end
 end
