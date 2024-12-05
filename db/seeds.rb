@@ -102,11 +102,12 @@ end
 100.times do
   roles = [ 2, 3 ]
   rand_roles = roles.sample
+  province = Province.all
 
   customer = Customer.create(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    address: Faker::Address.full_address,
+    address: "#{Faker::Address.street_address} #{province.name} #{Faker::Address.country}",
     phone_number: Faker::PhoneNumber.phone_number,
     user_role: rand_roles
   )
