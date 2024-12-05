@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_28_194344) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_05_051453) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -119,11 +119,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_28_194344) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "provinces", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+# Could not dump table "provinces" because of following StandardError
+#   Unknown type 'decima' for column 'pst_tax'
+
 
   add_foreign_key "carts", "customers"
   add_foreign_key "comments", "customers"

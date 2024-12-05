@@ -1,0 +1,6 @@
+<%= form_with url: checkout_create_path, method: :post do%>
+  <% @cart_order_products.each do |order_product| %>
+    <%= hidden_field_tag "order_product_ids[]", order_product.id, autocomplete: "off"%>
+  <% end %>
+    <%= button_tag "Checkout" %>
+<% end %>
