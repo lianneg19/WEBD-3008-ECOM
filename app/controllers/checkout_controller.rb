@@ -7,7 +7,7 @@ class CheckoutController < ApplicationController
       redirect_to root_path
       return
     end
-
+    # if order_products.order.customer.
     @session = Stripe::Checkout::Session.create(
       payment_method_types: [ "card" ],
       success_url: checkout_success_url,
@@ -34,5 +34,10 @@ class CheckoutController < ApplicationController
   def success
   end
   def cancel
+  end
+
+  def form
+    @cart_order_products = current_order.order_products
+    @cart_total = @cart_order_products.sum(:total_price)
   end
 end
